@@ -6,9 +6,9 @@ $conn = mysqli_connect ("localhost", "B00642652", "bDmwDSc0")
 
 mysqli_select_db($conn, 'B00642652') or die ('Db will not open');
 
-//QUERY 1 Gets all customers fornames and surnames with their book titles they have loaned
+//QUERY 1 Gets all author forenames and surnames with the book titles they have written
 
-$query1="SELECT forename, surname, title FROM member, loan, book WHERE member.memberid=loan.memberid AND book.bookid=loan.bookid ORDER BY forename ASC";
+$query1="SELECT forename, surname, title FROM author INNER JOIN book ON author.authorid=book.authorid";
 $result1 = mysqli_query ($conn, $query1);
 $num = mysqli_num_rows ($result1);
 $col = mysqli_num_fields ($result1);
@@ -36,8 +36,8 @@ echo "</table></br>";
 
 
 
-//QUERY 2 Books with their publishers
-$query2="SELECT title, publisherName FROM book, publisher WHERE book.publisherid=publisher.publisherid";
+//QUERY 2 Loan IDs and member info for that loan
+$query2="SELECT loan.loanid, member.forename, member.surname FROM loan RIGHT JOIN member ON loan.memberid=member.memberid ORDER BY loan.loanid";
 $result2 = mysqli_query ($conn, $query2);
 $num2 = mysqli_num_rows ($result2);
 $col2 = mysqli_num_fields ($result2);
@@ -48,8 +48,9 @@ $col2 = mysqli_num_fields ($result2);
 
 echo "QUERY2 </br> <table border = '1'>
 <tr>
-<th>Book Title</th>
-<th>Publisher Name</th>
+<th>LoanID</th>
+<th>Forename</th>
+<th>Surname</th>
 
 </tr>";
 
